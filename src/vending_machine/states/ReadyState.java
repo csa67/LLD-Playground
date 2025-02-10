@@ -41,6 +41,11 @@ public class ReadyState implements VendingMachineState{
         System.out.println("Please make payment first.");
     }
 
+    @Override
+    public void cancelTransaction() {
+        System.out.println("Transaction cancelled."+machine.getTotalPayment()+ "is being refunded");
+    }
+
     private void checkPaymentStatus() {
         if(machine.getTotalPayment() >= machine.getSelectedProduct().getProductPrice()){
             machine.setState(machine.getDispenseState());

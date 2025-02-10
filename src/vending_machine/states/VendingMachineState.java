@@ -10,4 +10,5 @@ public interface VendingMachineState {
     void insertNote(Note note);
     void dispenseProduct();
     void returnChange();
+    void cancelTransaction();
 }

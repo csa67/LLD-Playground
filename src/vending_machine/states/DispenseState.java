@@ -39,6 +39,11 @@ public class DispenseState implements VendingMachineState {
 
     @Override
     public void returnChange() {
+        System.out.println("Collect the dispensed product. Change will be refunded.");
+    }
 
+    @Override
+    public void cancelTransaction() {
+        System.out.println("Transaction cannot be cancelled when the product is already dispensed.");
     }
 }

@@ -43,4 +43,9 @@ public class IdleState implements VendingMachineState{
     public void returnChange() {
         System.out.println("No change to return");
     }
+
+    @Override
+    public void cancelTransaction() {
+        System.out.println("No transaction to cancel");
+    }
 }

@@ -45,4 +45,9 @@ public class ReturnChangeState implements VendingMachineState{
         machine.resetSelectedProduct();
         machine.setState(machine.getIdleState());
     }
+
+    @Override
+    public void cancelTransaction() {
+        System.out.println("Transaction cannot be cancelled at this stage.");
+    }
 }
