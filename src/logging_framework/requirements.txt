@@ -1,0 +1,8 @@
+Requirements
+
+-Support different levels of logging (INFO, DEBUG, ERROR, WARN, FATAL).
+-Logs should be written to multiple outputs (console, file).
+-Allow users to configure logging levels, output destinations, and log formats.
+-Support different log formats (plain text, JSON, XML)
+-Ability to filter logs based on levels or categories.
+-Option to write logs asynchronously for performance.
