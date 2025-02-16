@@ -1,0 +1,9 @@
+Requirements
+
+The coffee vending machine should support multiple types of coffee, such as Espresso, Latte, Cappuccino, and Black Coffee.
+The machine should allow users to select different cup sizes, such as Small, Medium, and Large.
+The system should check ingredient availability before processing the coffee order.
+The machine should accept multiple payment methods, including cash, credit card, and mobile payments.
+If payment is made in cash, the machine should calculate and return the correct change.
+The system should handle multiple users ordering coffee simultaneously, ensuring concurrency and preventing race conditions.
+The machine should notify users if ingredients are insufficient and prevent orders in such cases.
