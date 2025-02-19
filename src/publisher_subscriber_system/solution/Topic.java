@@ -11,13 +11,9 @@ public class Topic {
     private final Set<Subscriber> subscriberList = new CopyOnWriteArraySet<>();
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
-    public Topic(String name) {
-        this.id = generateId();
+    public Topic(Integer id,String name) {
+        this.id = id;
         this.name = name;
-    }
-
-    private int generateId() {
-        return (int) System.currentTimeMillis() % Integer.MAX_VALUE;
     }
 
     public int getId() {

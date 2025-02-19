@@ -2,37 +2,33 @@ package publisher_subscriber_system.solution;
 
 public class Demo {
     public static void main(String[] args) {
-        Topic topic1 = new Topic("topic1");
-        Topic topic2 = new Topic("topic2");
+        PubSubSystem pubSubSystem = PubSubSystem.getPubSubSystem();
+
+        //Create and register topics
+        Topic topic1 = new Topic(1,"Sports");
+        Topic topic2 = new Topic(2,"News");
+
+        pubSubSystem.registerTopic(topic1);
+        pubSubSystem.registerTopic(topic2);
 
         //Create publishers
-        Publisher publisher = new Publisher();
+        Publisher publisher1 = new Publisher("CNN");
+        Publisher publisher2 = new Publisher("ESPN");
 
-        //Create subscribers
-        Subscriber s1 = new PrintSubscriber("s1");
-        Subscriber s2 = new PrintSubscriber("s2");
-        Subscriber s3 = new PrintSubscriber("s3");
+        pubSubSystem.addPublisher(publisher1);
+        pubSubSystem.addPublisher(publisher2);
 
-        publisher.registerTopic(topic1);
-        publisher.registerTopic(topic2);
+        // Create Subscribers
+        Subscriber alice = new PrintSubscriber("Alice");
+        Subscriber bob = new PrintSubscriber("Bob");
 
-        //Subscribe to topics
-        topic1.addSubscriber(s1);
-        topic1.addSubscriber(s2);
-        topic2.addSubscriber(s2);
-        topic2.addSubscriber(s3);
+        //Subscribe users to topics
+        pubSubSystem.subscribe(topic1, alice);
+        pubSubSystem.subscribe(topic2, bob);
+        pubSubSystem.subscribe(topic2, alice);
 
-        int topic1Id = topic1.getId();
-        int topic2Id = topic2.getId();
-        System.out.println("Topic 1: " + topic1Id);
-
-        publisher.publish(topic1Id,new Message("Message 1 for Topic 1"));
-        publisher.publish(topic2Id,new Message("Message 1 for Topic 2"));
-        publisher.publish(topic1Id,new Message("Message 2 for Topic 1"));
-
-        //Unsubscribe
-        topic1.removeSubscriber(s1);
-
-        publisher.publish(topic1Id, new Message("Message3 for Topic1"));
+        //Publish messages
+        pubSubSystem.publish(topic1.getId(),publisher1,new Message("Breaking: Elections coming up!"));
+        pubSubSystem.publish(topic2.getId(), publisher2,  new Message("Match result: Team A wins!"));
     }
 }
