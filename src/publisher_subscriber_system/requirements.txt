@@ -1,0 +1,8 @@
+Requirements
+
+System should allow publishers to publish messages to specific topics.
+Subscribers can subscribe to any topic of interest and receive messages published to the topic.
+System should support multiple multiple publishers and subscribers.
+Messages should be delivered to all subscribers of a topic in real-time.
+The system should handle concurrent access and ensure thread safety.
+The Pub-Sub system should be scalable and efficient in terms of message delivery.
