@@ -29,10 +29,13 @@ public class Game {
                     board.printBoard();
                     if(board.checkWinner(row, col)){
                         System.out.println("Player " + currentPlayer.getName() + " wins!");
-                        break;
-                    } else {
-                        switchPlayer();
+                        return;
                     }
+                    if(board.isFull()){
+                        System.out.println("It's a draw!");
+                        return;
+                    }
+                    switchPlayer();
                 } // If move is invalid, the same player gets another turn.
             } catch(Exception e) {
                 System.out.println(e.getMessage());
