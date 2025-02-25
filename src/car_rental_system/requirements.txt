@@ -1,0 +1,6 @@
+Requirements
+
+Allow customers to search for cars, make reservations, and process payments.
+Manage car inventory, check availability, and update reservation status.
+Concurrency safety for reservation and inventory management.
+Extensibility for payment methods.
