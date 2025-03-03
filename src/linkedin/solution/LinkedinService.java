@@ -1,6 +1,7 @@
 package linkedin.solution;
 
 import linkedin.solution.notifications.Notification;
+import linkedin.solution.notifications.NotificationFactory;
 import linkedin.solution.notifications.NotificationType;
 
 import java.sql.Timestamp;
@@ -54,10 +55,8 @@ public class LinkedinService {
     public void sendConnectionRequest(User sender, User receiver) {
         Connection connection = new Connection(sender,new Timestamp(System.currentTimeMillis()));
         receiver.getConnectionRequests().add(connection);
-        Notification notification = new Notification(
-                generateNotificationId(),
+        Notification notification = NotificationFactory.createNotification(
                 receiver,
-                new Timestamp(System.currentTimeMillis()),
                 "New connection request from "+sender.getName(),
                 NotificationType.CONNECTION_REQUEST);
         addNotification(receiver.getId(), notification);
@@ -77,10 +76,8 @@ public class LinkedinService {
     public void postJobListing(JobPosting jobPosting) {
         jobPostings.put(jobPosting.getId(), jobPosting);
         for(User user : users.values()) {
-            Notification notification = new Notification(
-                    generateNotificationId(),
+            Notification notification = NotificationFactory.createNotification(
                     user,
-                    new Timestamp(System.currentTimeMillis()),
                     "New job posting "+jobPosting.getTitle()+ " from "+jobPosting.getCompany(),
                     NotificationType.JOB_POSTING);
             addNotification(user.getId(), notification);
@@ -91,12 +88,11 @@ public class LinkedinService {
         Message msg = new Message(generateMsgId(),sender,receiver,message,new Timestamp(System.currentTimeMillis()));
         receiver.addToInbox(msg);
         sender.addToSent(msg);
-        Notification notification = new Notification(
-                generateNotificationId(),
+        Notification notification = NotificationFactory.createNotification(
                 receiver,
-                new Timestamp(System.currentTimeMillis()),
                 "New message from "+sender.getName(),
                 NotificationType.MESSAGE);
+        addNotification(receiver.getId(), notification);
     }
 
     public List<User> searchUsers(String query) {
@@ -126,10 +122,6 @@ public class LinkedinService {
 
     public List<Notification> getNotifications(String userId) {
         return notifications.get(userId);
-    }
-
-    private String generateNotificationId() {
-        return UUID.randomUUID().toString();
     }
 
     private String generateMsgId() {
