@@ -1,0 +1,10 @@
+Requirements
+
+-User can create an account with personal info - name, email and password
+-User's profile has their professional info - profile picture, headline, experience, education, akills
+-Users can update their details
+-Users can send, accept/decline connection requests and view their connections.
+-Users should be able to send messages to their connections.
+-Users should be able to view their inbox and sent messages.
+-Employers should be able to post job listings with details such as title, description, requirements, and location.
+-Users should be able to view and apply for job postings.
