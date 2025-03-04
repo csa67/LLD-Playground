@@ -1,6 +1,8 @@
 package linkedin.solution;
 
 import linkedin.solution.notifications.Notification;
+import linkedin.solution.notifications.NotificationService;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +11,9 @@ import java.util.List;
 public class LinkedInDemo {
     public static void main(String[] args) {
         LinkedinService linkedInService = LinkedinService.getInstance();
+        NotificationService notificationService = new NotificationService();
+
+        linkedInService.addObserver(notificationService);
 
         // User registration
         User user1 = new User("1", "John Doe", "john@example.com", "password");
@@ -62,7 +67,7 @@ public class LinkedInDemo {
         linkedInService.sendMessage(user1, user2, "Hi Jane, hope you're doing well!");
 
         // Get notifications
-        List<Notification> notifications = linkedInService.getNotifications(user2.getId());
+        List<Notification> notifications = notificationService.getUserNotifications(loggedInUser.getId());
         System.out.println("Notifications:");
         for (Notification notification : notifications) {
             System.out.println("Type: " + notification.getType());

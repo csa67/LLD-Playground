@@ -3,6 +3,7 @@ package linkedin.solution;
 import linkedin.solution.notifications.Notification;
 import linkedin.solution.notifications.NotificationFactory;
 import linkedin.solution.notifications.NotificationType;
+import linkedin.solution.notifications.Observer;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,12 +17,11 @@ public class LinkedinService {
     private static LinkedinService instance;
     private Map<String, User> users;
     private final Map<String, JobPosting> jobPostings;
-    private final Map<String, List<Notification>> notifications;
+    private final List<Observer> observers = new ArrayList<>();
 
     private LinkedinService() {
         users = new ConcurrentHashMap<>();
         jobPostings = new ConcurrentHashMap<>();
-        notifications = new ConcurrentHashMap<>();
     }
 
     public synchronized static LinkedinService getInstance() {
@@ -29,6 +29,16 @@ public class LinkedinService {
             instance = new LinkedinService();
         }
         return instance;
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers(String userId, Notification notification) {
+        for(Observer observer : observers) {
+            observer.update(userId, notification);
+        }
     }
 
     public void registerUser(User user) {
@@ -59,7 +69,7 @@ public class LinkedinService {
                 receiver,
                 "New connection request from "+sender.getName(),
                 NotificationType.CONNECTION_REQUEST);
-        addNotification(receiver.getId(), notification);
+        notifyObservers(receiver.getId(), notification);
     }
 
     public void acceptConnectionRequest(User sender, User receiver) {
@@ -80,7 +90,8 @@ public class LinkedinService {
                     user,
                     "New job posting "+jobPosting.getTitle()+ " from "+jobPosting.getCompany(),
                     NotificationType.JOB_POSTING);
-            addNotification(user.getId(), notification);
+
+            notifyObservers(user.getId(), notification);
         }
     }
 
@@ -92,7 +103,8 @@ public class LinkedinService {
                 receiver,
                 "New message from "+sender.getName(),
                 NotificationType.MESSAGE);
-        addNotification(receiver.getId(), notification);
+
+        notifyObservers(receiver.getId(), notification);
     }
 
     public List<User> searchUsers(String query) {
@@ -114,14 +126,6 @@ public class LinkedinService {
         }
         return result;
 
-    }
-
-    private void addNotification(String userId,Notification notification) {
-        notifications.computeIfAbsent(userId, k -> new ArrayList<>()).add(notification);
-    }
-
-    public List<Notification> getNotifications(String userId) {
-        return notifications.get(userId);
     }
 
     private String generateMsgId() {
